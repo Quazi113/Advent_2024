@@ -8,10 +8,32 @@ import java.util.Scanner;
 public class Day1 {
     public static void main(String[] args) {
 
-        ArrayList<String> fileData = getFileData("src/Day1Input.txt");
+        ArrayList<String> fileData = getFileData("src/Day1Input");
         // you now have an ArrayList of Strings for each number in the file
         // do Advent 2020 day 1!
 
+        // Part 1
+        // ArrayList<Integer> left = new ArrayList<>();
+        // ArrayList<Integer> right = new ArrayList<>();
+        // for (int i = 0; i < fileData.size(); i++) {
+        //     String[] list = fileData.get(i).split("   ");;
+        //     left.add(Integer.parseInt(list[0]));
+        //     right.add(Integer.parseInt(list[1]));
+        // }
+
+        // Collections.sort(left);
+        // Collections.sort(right);
+
+        // int total = 0;
+        // for (int i = 0; i < left.size(); i++) {
+        //     total += Math.abs(left.get(i) - right.get(i));
+        // }
+        // System.out.println(total);
+
+        //Part2
+        ArrayList<String> fileData = getFileData("src/Day1Input");
+        // you now have an ArrayList of Strings for each number in the file
+        // do Advent 2020 day 1!
 
         ArrayList<Integer> left = new ArrayList<>();
         ArrayList<Integer> right = new ArrayList<>();
@@ -25,9 +47,17 @@ public class Day1 {
         Collections.sort(right);
 
         int total = 0;
-        for (int i = 0; i < left.size(); i++) {
-            total += Math.abs(left.get(i) - right.get(i));
+
+        for (int j = 0; j < left.size(); j++) {
+            int counter = 0;
+            for (int i = 0; i < right.size(); i++) {
+                if (Objects.equals(left.get(j), right.get(i))) {
+                    counter++;
+                }
+            }
+            total += left.get(j) * counter;
         }
+
         System.out.println(total);
     }
 
