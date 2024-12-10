@@ -6,20 +6,45 @@ import java.util.Scanner;
 public class Day2 {
     public static void main(String[] args) {
 
-        ArrayList<String> fileData = getFileData("src/Day2Input.txt");
-        System.out.println(fileData);
+        ArrayList<String> fileData = getFileData("src/Day2Input");
 
         int incorrect = 0;
         int total = fileData.size();
 
+
         for (int i = 0; i < fileData.size(); i++) {
-            String[] levels = fileData.get(i).split(" ");
+            String[] level = fileData.get(i).split(" ");
+            boolean sign = false;
+            boolean prevsign = false;
 
-            for (int j = 0; j < levels.length; j++) {
-                
+            for (int j = 1; j < level.length; j++) {
+                int difference = Integer.parseInt(level[j -1]) - Integer.parseInt(level[j]);
+                if (j > 1) {
+                    prevsign = sign;
+                }
+                if (difference < 0) {
+                    sign = false;
+                } else if (difference > 0){
+                    sign = true;
+                } else {
+                    incorrect++;
+                    break;
+                }
 
+                if (sign == false) {
+                    if (difference < -3 || prevsign != sign) {
+                        incorrect++;
+                        break;
+                    }
+                } else {
+                    if (difference > 3 || prevsign != sign) {
+                        incorrect++;
+                        break;
+                    }
+                }
             }
         }
+        System.out.println(total - incorrect);
 
     }
 
