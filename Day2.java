@@ -8,44 +8,64 @@ public class Day2 {
 
         ArrayList<String> fileData = getFileData("src/Day2Input");
 
-        int incorrect = 0;
-        int total = fileData.size();
-
+        int correct = 0;
 
         for (int i = 0; i < fileData.size(); i++) {
             String[] level = fileData.get(i).split(" ");
-            boolean sign = false;
-            boolean prevsign = false;
+            if (checkZero(level) && checkSign(level) && checkDifference(level)) {
+                correct++;
+            }
+        }
+        System.out.println(correct);
+    }
 
-            for (int j = 1; j < level.length; j++) {
-                int difference = Integer.parseInt(level[j -1]) - Integer.parseInt(level[j]);
-                if (j > 1) {
-                    prevsign = sign;
-                }
-                if (difference < 0) {
-                    sign = false;
-                } else if (difference > 0){
-                    sign = true;
-                } else {
-                    incorrect++;
-                    break;
-                }
+    public static Boolean checkZero(String[] data) {
+        for (int i = 1; i < data.length; i++) {
+            int difference = Integer.parseInt(data[i - 1]) - Integer.parseInt(data[i]);
+            if (difference == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-                if (sign == false) {
-                    if (difference < -3 || prevsign != sign) {
-                        incorrect++;
-                        break;
-                    }
-                } else {
-                    if (difference > 3 || prevsign != sign) {
-                        incorrect++;
-                        break;
-                    }
+    public static Boolean checkDifference(String[] data) {
+        for(int i = 1; i < data.length; i++) {
+            int difference = Integer.parseInt(data[0]) - Integer.parseInt(data[1]);
+            int differencetwo = Integer.parseInt(data[i - 1]) - Integer.parseInt(data[i]);
+            if (difference > 0) {
+                if (differencetwo > 3) {
+                    return false;
+                }
+            } else {
+                if (differencetwo < -3) {
+                    return false;
                 }
             }
         }
-        System.out.println(total - incorrect);
+        return true;
+    }
 
+    public static Boolean checkSign(String[] data) {
+        boolean sign = false;
+
+        for(int i = 1; i < data.length; i++) {
+            int difference = Integer.parseInt(data[0]) - Integer.parseInt(data[1]);
+            if (difference > 0) {
+                if (Integer.parseInt(data[i]) < Integer.parseInt(data[i - 1])) {
+                    sign = true;
+                } else {
+                    return false;
+                }
+            } else {
+                if (Integer.parseInt(data[i]) > Integer.parseInt(data[i - 1])) {
+                    sign = true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return sign;
     }
 
     public static ArrayList<String> getFileData(String fileName) {
