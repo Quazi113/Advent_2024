@@ -7,28 +7,73 @@ public class Day4 {
     public static void main(String[] args) {
 
         ArrayList<String> fileData = getFileData("src/Day4Input");
+        String[][] puzzle = new String[fileData.size()][fileData.getFirst().length()];
+
         for (int i = 0; i < fileData.size(); i++) {
             fileData.get(i).split("");
-        }
-        System.out.println(fileData);
-        String[][] puzzle = new String[fileData.size()][fileData.getFirst().length()];
-        int correct = 0;
-
-        for (int r = 0; r < puzzle.length; r++ ) {
-            String[] row = fileData.get(r);
-            for (int c = 0; c < puzzle[0].length; c++) {
-
+            for (int j = 0; j < fileData.get(i).length(); j++) {
+                puzzle[i][j] = fileData.get(i).substring(j, j+1);
             }
         }
 
-        for (int r = 0; r < fileData.size(); r++) {
-            for (int c = 0; c < fileData)
+        int correct = 0;
+
+        for (int r = 0; r < puzzle.length; r++) {
+            for (int c = 0; c < puzzle[0].length; c++) {
+                if (puzzle[r][c].equals("X")) {
+                    if (checkForward(r,c,puzzle)) {
+                        correct++;
+                    }
+                    if (checkDown(r,c,puzzle)) {
+                        correct++;
+                    }
+                    if (checkBack(r,c,puzzle)) {
+                        correct++;
+                    }
+                    if (checkUp(r,c,puzzle)) {
+                        correct++;
+                    }
+                }
+            }
         }
         System.out.println(correct);
     }
 
-    public static Boolean checkForward(int r, int c) {
-        if ()
+
+    public static Boolean checkForward(int r, int c, String[][] data) {
+        if (data[c].length > c + 3) {
+            if (data[r][c + 1].equals("M") && data[r][c + 2].equals("A") && data[r][c + 3].equals("S")) {
+               return true;
+            }
+        }
+        return false;
+    }
+
+    public static Boolean checkDown(int r, int c, String[][] data) {
+        if (data.length > r + 3) {
+            if (data[r + 1][c].equals("M") && data[r + 2][c].equals("A") && data[r + 3][c].equals("S")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static Boolean checkBack(int r, int c, String[][] data) {
+        if (c - 3 > 0) {
+            if (data[r][c - 1].equals("M") && data[r][c - 2].equals("A") && data[r][c - 3].equals("S")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static Boolean checkUp(int r, int c, String[][] data) {
+        if (r - 3 > 0) {
+            if (data[r - 1][c].equals("M") && data[r - 2][c].equals("A") && data[r - 3][c].equals("S")) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
